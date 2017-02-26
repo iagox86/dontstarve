@@ -9,7 +9,10 @@ export default Ember.Service.extend({
       Tabletop.init({
         key: spreadsheet,
         callback: function(data) {
-          console.log(data[worksheet].elements);
+          /* Add an id value equal to the index, since the spreadsheets don't have an id. */
+          data[worksheet].elements.map(function(item, index, obj) {
+            item.id = index;
+          })
           resolve(data[worksheet].elements);
         }
       });
