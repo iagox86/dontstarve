@@ -63,7 +63,7 @@ function _serializeItem(item) {
   };
 }
 
-export default DS.JSONAPISerializer.extend({
+export default DS.Serializer.extend({
   /* jshint unused:false */
   normalizeResponse(store, primaryModelClass, payload, id, requestType, isSingle) {
     if(requestType === 'findAll') {
