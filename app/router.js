@@ -7,7 +7,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('buildables');
+  this.route('buildables', function() {
+    this.route('buildable', { path: ':buildable_id' });
+  });
   this.route('recipes', function() {
     this.route('recipe', { path: '/recipe/:name' });
   });

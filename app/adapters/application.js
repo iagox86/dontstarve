@@ -9,9 +9,11 @@ export default DS.Adapter.extend({
     return this.get('spreadsheets').fetch(worksheet);
   },
 
-  queryRecord: function(store, type, name) {
+  findRecord: function(store, type, id) {
     return this.findAll(store, type).then(function(data) {
-      return data.findBy('Name', name);
+      return data.find(function(datum) {
+        return datum.Name.toLowerCase() === id;
+      });
     });
   },
 

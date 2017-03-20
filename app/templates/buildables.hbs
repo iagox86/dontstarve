@@ -1,8 +1,9 @@
 {{outlet}}
+<hr />
 <ul>
   {{#each model as |buildable|}}
     <li>
-      <p>{{buildable.name}}</p>
+      {{#link-to 'buildables.buildable' buildable}}{{buildable.name}}{{/link-to}}
       <ul>
         {{#each buildable.components as |component|}}
           <li>{{component.item}} x {{component.quantity}}</li>
