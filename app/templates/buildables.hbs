@@ -1,6 +1,13 @@
-<ul>
-{{#each model as |buildable|}}
-<p>{{buildable.id}} {{buildable.Name}}</p>
-{{/each}}
-</ul>
 {{outlet}}
+<ul>
+  {{#each model as |buildable|}}
+    <li>
+      <p>{{buildable.name}}</p>
+      <ul>
+        {{#each buildable.components as |component|}}
+          <li>{{component.item}} x {{component.quantity}}</li>
+        {{/each}}
+      </ul>
+    </li>
+  {{/each}}
+</ul>
