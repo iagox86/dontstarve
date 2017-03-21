@@ -12,6 +12,7 @@ export default DS.Adapter.extend({
   findRecord: function(store, type, id) {
     return this.findAll(store, type).then(function(data) {
       return data.find(function(datum) {
+        /* The 'Name' field will always be the id in this project. */
         return datum.Name.toLowerCase() === id;
       });
     });
