@@ -1,9 +1,20 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  dst: true,
-  rog: true,
-  sw: true,
+  expansions: {
+    dst: localStorage.getItem('expansions.dst') === 'true',
+    rog: localStorage.getItem('expansions.rog') === 'true',
+    sw: localStorage.getItem('expansions.sw') === 'true',
+  },
+
+  expansionChanged: function() {
+    var expansions = this.get('expansions');
+    for(var key in expansions) {
+      if(expansions.hasOwnProperty(key)) {
+        localStorage.setItem('expansions.' + key, expansions[key]);
+      }
+    }
+  }.observes('expansions.dst', 'expansions.rog', 'expansions.sw'),
 
   ingredients: function() {
     var ingredients = {};
@@ -22,9 +33,9 @@ export default Ember.Controller.extend({
   }.property('model'),
 
   filtered_items: function() {
-    let dst = this.get('dst');
-    let rog = this.get('rog');
-    let sw = this.get('sw');
+    let dst = this.get('expansions.dst');
+    let rog = this.get('expansions.rog');
+    let sw = this.get('expansions.sw');
 
     return this.get('model').filter(function(buildable) {
       if(buildable.get('expansion') === "Don't Starve Together") {
@@ -37,5 +48,5 @@ export default Ember.Controller.extend({
 
       return true;
     });
-  }.property('model', 'dst', 'rog', 'sw'),
+  }.property('model', 'expansions.dst', 'expansions.rog', 'expansions.sw'),
 });
