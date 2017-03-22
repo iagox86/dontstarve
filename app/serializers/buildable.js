@@ -36,7 +36,7 @@ function _getPeriod(period) {
   return 0;
 }
 
-function _serializeItem(item) {
+function _deserializeItem(item) {
   return {
     'id': item['Name'].toLowerCase(),
     'type': 'buildable',
@@ -46,10 +46,18 @@ function _serializeItem(item) {
       'name': item['Name'].toLowerCase(),
       'type': item['Type'].toLowerCase(),
       'components': item['Components'].toLowerCase().split(/,[ ]*/).map(function(component) {
+        if(!(component.includes(' x '))) {
+          return {
+            'quantity': '0',
+            'item': '?',
+            'type': 'special',
+          };
+        }
         var [quantity, this_component] = component.split(' x ');
         return {
           'quantity': quantity,
           'item': this_component,
+          'type': 'normal',
         };
       }),
       'tab': item['Tab'],
@@ -69,12 +77,12 @@ export default DS.Serializer.extend({
     if(requestType === 'findAll') {
       return {
         data: payload.map(function(item) {
-          return _serializeItem(item);
+          return _deserializeItem(item);
         })
       };
     } else if(requestType === 'findRecord') {
       return {
-        data: _serializeItem(payload),
+        data: _deserializeItem(payload),
       };
     } else {
       console.log("Unknown request type: " + requestType);
